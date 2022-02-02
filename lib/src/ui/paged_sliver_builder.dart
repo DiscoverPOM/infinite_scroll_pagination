@@ -101,6 +101,9 @@ class _PagedSliverBuilderState<PageKeyType, ItemType>
   bool get _shrinkWrapFirstPageIndicators =>
       widget.shrinkWrapFirstPageIndicators;
 
+  Widget? get _firstPageErrorIndicatorSliver =>
+      _builderDelegate.sliverFirstPageErrorIndicatorBuilder;
+
   WidgetBuilder get _firstPageErrorIndicatorBuilder =>
       _builderDelegate.firstPageErrorIndicatorBuilder ??
       (_) => FirstPageErrorIndicator(
@@ -113,6 +116,9 @@ class _PagedSliverBuilderState<PageKeyType, ItemType>
             onTap: _pagingController.retryLastFailedRequest,
           );
 
+  Widget? get _firstPageProgressIndicatorSliver =>
+      _builderDelegate.sliverFirstPageProgressIndicatorBuilder;
+
   WidgetBuilder get _firstPageProgressIndicatorBuilder =>
       _builderDelegate.firstPageProgressIndicatorBuilder ??
       (_) => FirstPageProgressIndicator();
@@ -120,6 +126,9 @@ class _PagedSliverBuilderState<PageKeyType, ItemType>
   WidgetBuilder get _newPageProgressIndicatorBuilder =>
       _builderDelegate.newPageProgressIndicatorBuilder ??
       (_) => const NewPageProgressIndicator();
+
+  Widget? get _noItemsFoundIndicatorSliver =>
+      _builderDelegate.sliverNoItemsFoundIndicatorBuilder;
 
   WidgetBuilder get _noItemsFoundIndicatorBuilder =>
       _builderDelegate.noItemsFoundIndicatorBuilder ??
@@ -191,10 +200,11 @@ class _PagedSliverBuilderState<PageKeyType, ItemType>
                 );
                 break;
               case PagingStatus.loadingFirstPage:
-                child = _FirstPageStatusIndicatorBuilder(
-                  builder: _firstPageProgressIndicatorBuilder,
-                  shrinkWrap: _shrinkWrapFirstPageIndicators,
-                );
+                child = _firstPageProgressIndicatorSliver ??
+                    _FirstPageStatusIndicatorBuilder(
+                      builder: _firstPageProgressIndicatorBuilder,
+                      shrinkWrap: _shrinkWrapFirstPageIndicators,
+                    );
                 break;
               case PagingStatus.subsequentPageError:
                 child = widget.errorListingBuilder(
@@ -209,16 +219,18 @@ class _PagedSliverBuilderState<PageKeyType, ItemType>
                 );
                 break;
               case PagingStatus.noItemsFound:
-                child = _FirstPageStatusIndicatorBuilder(
-                  builder: _noItemsFoundIndicatorBuilder,
-                  shrinkWrap: _shrinkWrapFirstPageIndicators,
-                );
+                child = _noItemsFoundIndicatorSliver ??
+                    _FirstPageStatusIndicatorBuilder(
+                      builder: _noItemsFoundIndicatorBuilder,
+                      shrinkWrap: _shrinkWrapFirstPageIndicators,
+                    );
                 break;
               default:
-                child = _FirstPageStatusIndicatorBuilder(
-                  builder: _firstPageErrorIndicatorBuilder,
-                  shrinkWrap: _shrinkWrapFirstPageIndicators,
-                );
+                child = _firstPageErrorIndicatorSliver ??
+                    _FirstPageStatusIndicatorBuilder(
+                      builder: _firstPageErrorIndicatorBuilder,
+                      shrinkWrap: _shrinkWrapFirstPageIndicators,
+                    );
             }
 
             if (_builderDelegate.animateTransitions) {
