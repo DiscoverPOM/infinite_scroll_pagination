@@ -19,6 +19,9 @@ class PagedChildBuilderDelegate<ItemType> {
     this.newPageProgressIndicatorBuilder,
     this.noItemsFoundIndicatorBuilder,
     this.noMoreItemsIndicatorBuilder,
+    this.sliverFirstPageProgressIndicatorBuilder,
+    this.sliverFirstPageErrorIndicatorBuilder,
+    this.sliverNoItemsFoundIndicatorBuilder,
     this.animateTransitions = false,
     this.transitionDuration = const Duration(milliseconds: 250),
   });
@@ -26,17 +29,29 @@ class PagedChildBuilderDelegate<ItemType> {
   /// The builder for list items.
   final ItemWidgetBuilder<ItemType> itemBuilder;
 
+  /// The sliver widget for the first page's error indicator.
+  /// If present, it is used instead of [firstPageErrorIndicatorBuilder]
+  final Widget? sliverFirstPageErrorIndicatorBuilder;
+
   /// The builder for the first page's error indicator.
   final WidgetBuilder? firstPageErrorIndicatorBuilder;
 
   /// The builder for a new page's error indicator.
   final WidgetBuilder? newPageErrorIndicatorBuilder;
 
+  /// The sliver widget for the first page's progress indicator.
+  /// If present, it is used instead of [firstPageProgressIndicatorBuilder]
+  final Widget? sliverFirstPageProgressIndicatorBuilder;
+
   /// The builder for the first page's progress indicator.
   final WidgetBuilder? firstPageProgressIndicatorBuilder;
 
   /// The builder for a new page's progress indicator.
   final WidgetBuilder? newPageProgressIndicatorBuilder;
+
+  /// The sliver widget for no items list indicator.
+  /// If present, it is used instead of [noItemsFoundIndicatorBuilder]
+  final Widget? sliverNoItemsFoundIndicatorBuilder;
 
   /// The builder for a no items list indicator.
   final WidgetBuilder? noItemsFoundIndicatorBuilder;
